@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Barrio&display=swap');
+
+
+/* The Background Layer */
+#root::before {
+    content: "";
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+
+    background-image: url('src/static/footer.png'); 
+    background-size: cover;
+    background-position: center;
+    
+    opacity: 0.7; 
+}
+
+.card-grid {
+  display: grid;
+  gap: 20px;
+  padding: 5vw;
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  width: 200px;
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  background: #4f0f0f;
+}
+
+.card-grid {
+  perspective: 1000px;
+}
+
+/* Hover effect */
+.card:hover {
+  transform: rotateY(6deg) rotateX(2deg) scale(1.05);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+}
+
+.card p{
+    color:rgb(253, 204, 11);
+}
+/* Optional: click press effect */
+.card:active {
+  transform: scale(0.98);
+}
+
+@keyframes color-flow {
+  0% { border-color: red; }
+  33% { border-color: orange; }
+  66% { border-color: yellow; }
+  100% { border-color: red; }
+}
+
+.flow-scoreboard {
+  align-self: flex-end;
+  margin-right: 5%;
+  border: 4px solid red;
+  border-radius: 12px;
+  animation: color-flow 2s linear infinite;
+}

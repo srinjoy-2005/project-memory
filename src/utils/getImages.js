@@ -35,7 +35,7 @@ async function getImages(number = 8) {
         // Fallback local images with IDs
         images = Array.from({ length: number }, (_, i) => ({
             id: crypto.randomUUID(),
-            url: `/static/im${i + 1}.png`,
+            url: `src/static/im${i + 1}.png`,
             character:'character'
         }));
     }

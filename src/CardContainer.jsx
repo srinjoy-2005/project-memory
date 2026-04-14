@@ -17,18 +17,13 @@ function CardContainer() {
     loadImages();
   }, []);
 
-  function handleClick(){
+  function handleClick(id){
 
   }
 
   return (
     <>
-      <div className="card-grid" style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "16px",
-        padding: "20px"
-      }}>
+      <div className="card-grid">
         {images.map(image => (
           <Card 
             key={image.id}
@@ -37,11 +32,16 @@ function CardContainer() {
           />
         ))}
       </div>
-      <button id="reset-game" style={{backgroundColor: "red",
-        width: "50%",
+      <div style={{background:'red', height:'2px', margin:'5vh 0vw'}}></div>
+      <button id="reset-game" style={{
+        backgroundColor: "red",
+        alignSelf:'center',
+        width: "20%",
+        borderRadius:'50%',
         padding: "10px",
         color: "white",
-        border: "none",
+        border: "2px solid yellow",
+        fontSize:'1rem',
         cursor: "pointer"}}>Reset</button>
     </>
   );
