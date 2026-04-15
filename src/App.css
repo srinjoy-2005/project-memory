@@ -34,16 +34,17 @@ body {
 
 
 #loading {
-  width: fit-content;
+  width: 50vw;
   font-weight: bold;
   font-family: barrio,cursive;
   color: maroon;
   white-space: pre;
   font-size: 2rem;
   background-color: #9b4e4e;
-  line-height: 1.2em;
+  line-height: 12em;
   align-self: center;
   flex:1;
+  max-height:80dvh;
   overflow: hidden;
 }
 #loading:before {
@@ -92,6 +93,11 @@ body {
   background: #4f0f0f;
 }
 
+.card.flip, .card.flip:active, .card.flip:hover {
+  transform: translateZ(-10000px);
+}
+
+
 .card img {
   width: 100%;
   height: 80%;
@@ -111,6 +117,8 @@ body {
 .card:active {
   transform: scale(0.98);
 }
+
+
 
 .header {
   font-family: 'Barrio', cursive;

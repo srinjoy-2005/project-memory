@@ -9,6 +9,25 @@ function CardContainer({score, changeScore,resetGame}) {
   const [images, setImages] = useState([]);
   const [taken, setTaken] = useState([]);
   const [loading,setloading] = useState(true);
+  const [flip, setFlip] = useState(false);
+
+  if(taken.length==images.length && !loading){
+    //TODO: replace with modal
+    alert('You won');
+    setTimeout(() => {
+      resetGame();
+      setTaken([]);
+    }, 0); 
+  }
+
+  function shuffleArray(array) {
+    const newArray = [...array]; // don't mutate state directly
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  }
 
   const MINIMUMWAIT = 2000;
   useEffect(() => {
@@ -28,8 +47,6 @@ function CardContainer({score, changeScore,resetGame}) {
         setloading(false);
         }, MINIMUMWAIT-(endTime-startTime));
       }
-
-      
       console.log('images loaded');
     }
     loadImages();
@@ -45,6 +62,14 @@ function CardContainer({score, changeScore,resetGame}) {
       setTaken(taken=>[...taken,id]);
       changeScore(score+1);
     }
+    
+    setFlip(true);
+
+    setTimeout(() => {
+      setImages(prev => shuffleArray(prev));
+      setFlip(false);
+    }, 600);
+
   }
 
   return loading? (<div id='loading'></div>  ) : (
@@ -54,6 +79,7 @@ function CardContainer({score, changeScore,resetGame}) {
           <Card 
             key={image.id}
             card={image}
+            flip={flip}
             onClick={handleClick} 
           />
         ))}
