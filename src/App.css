@@ -15,6 +15,11 @@ body {
   min-width: 320px;
 }
 
+#root{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 /* The Background Layer */
 #root::before {
   content: "";
@@ -26,6 +31,32 @@ body {
   background-position: center;
   opacity: 0.7;
 }
+
+
+#loading {
+  width: fit-content;
+  font-weight: bold;
+  font-family: barrio,cursive;
+  color: maroon;
+  white-space: pre;
+  font-size: 2rem;
+  background-color: #9b4e4e;
+  line-height: 1.2em;
+  align-self: center;
+  flex:1;
+  overflow: hidden;
+}
+#loading:before {
+  content:"Loading...\A⌰oading...\A⌰⍜ading...\A⌰⍜⏃ding...\A⌰⍜⏃⎅ing...\A⌰⍜⏃⎅⟟ng...\A⌰⍜⏃⎅⟟⋏g...\A⌰⍜⏃⎅⟟⋏☌...\A⌰⍜⏃⎅⟟⋏☌⟒..\A⌰⍜⏃⎅⟟⋏☌⟒⏁.\A⌰⍜⏃⎅⟟⋏☌⟒⏁⋔"; 
+  white-space: pre;
+  display: inline-block;
+  animation: l39 1s infinite steps(11) alternate;
+}
+
+@keyframes l39 {
+  100%{transform: translateY(-100%)}
+}
+
 
 .card-grid {
   display: grid;
@@ -94,6 +125,13 @@ body {
   border-bottom: 2px solid grey;
   line-height: 1.05;
   overflow-wrap: anywhere;
+}
+
+.hero{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1rem;
+  padding: 1%;
+  color:#4f0f0f;
 }
 
 @keyframes color-flow {

@@ -5,14 +5,32 @@ import Card from './Card.jsx'
 
 
 
-function CardContainer({score, changeScore}) {
+function CardContainer({score, changeScore,resetGame}) {
   const [images, setImages] = useState([]);
   const [taken, setTaken] = useState([]);
+  const [loading,setloading] = useState(true);
 
+  const MINIMUMWAIT = 2000;
   useEffect(() => {
     async function loadImages() {
-      const imgs = await getImages(); 
-      setImages(imgs);
+      console.log('loading images');
+      const startTime= Date.now();
+      setloading(true);
+      const imgs = await getImages();
+      const endTime = Date.now();
+      
+      if (endTime-startTime>MINIMUMWAIT){
+        setImages(imgs);
+        setloading(false);
+      }else{
+        setTimeout(() => {
+        setImages(imgs);
+        setloading(false);
+        }, MINIMUMWAIT-(endTime-startTime));
+      }
+
+      
+      console.log('images loaded');
     }
     loadImages();
   }, []);
@@ -25,11 +43,11 @@ function CardContainer({score, changeScore}) {
       alert("you lost, click to restart!");
     }else{
       setTaken(taken=>[...taken,id]);
-      changeScore(score=>score+1);
+      changeScore(score+1);
     }
   }
 
-  return (
+  return loading? (<div id='loading'></div>  ) : (
     <>
       <div className="card-grid">
         {images.map(image => (
@@ -41,7 +59,7 @@ function CardContainer({score, changeScore}) {
         ))}
       </div>
       <div style={{background:'red', height:'2px', margin:'5vh 0vw'}}></div>
-      <button id="reset-game">Reset</button>
+      <button id="reset-game" onClick={()=>{resetGame()}}>Reset</button>
     </>
   );
 }
