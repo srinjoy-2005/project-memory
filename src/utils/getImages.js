@@ -1,7 +1,7 @@
 let images = [];
 
 async function sendRequest() {
-    const url = 'https://stranger-things-api.fly.dev/api/v1/characters/';
+    const url = 'https://stranger-things-api.fly.dev/api/v1/characters/1';
     const rawdata = await fetch(url);
 
     if (!rawdata.ok) {
@@ -43,7 +43,7 @@ async function getImages(number = 10) {
         }));
 
     } catch (error) {
-        console.error("API failed, using local images",error);
+        console.warn("API failed, using local images",error);
 
         images = Array.from({ length: number }, (_, i) => ({
             id: crypto.randomUUID(),

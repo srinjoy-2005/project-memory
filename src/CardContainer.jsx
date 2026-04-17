@@ -10,14 +10,16 @@ function CardContainer({score, changeScore,resetGame}) {
   const [taken, setTaken] = useState([]);
   const [loading,setloading] = useState(true);
   const [flip, setFlip] = useState(false);
-  
+  const [count, setCount] = useState(8);//number of cards
+
 
   if(taken.length==images.length && !loading){
     //TODO: replace with modal
-    alert('You won');
+    alert(`You won the ${count} card memory game!`);
     setTimeout(() => {
       resetGame();
       setTaken([]);
+      setCount(prev=>prev+2);
     }, 0); 
   }
 
@@ -32,11 +34,11 @@ function CardContainer({score, changeScore,resetGame}) {
 
   const MINIMUMWAIT = 2000;
   useEffect(() => {
-    async function loadImages() {
+    async function loadImages(count) {
       console.log('loading images');
       const startTime= Date.now();
       setloading(true);
-      const imgs = await getImages();
+      const imgs = await getImages(count);
       const endTime = Date.now();
       
       if (endTime-startTime>MINIMUMWAIT){
@@ -48,16 +50,16 @@ function CardContainer({score, changeScore,resetGame}) {
         setloading(false);
         }, MINIMUMWAIT-(endTime-startTime));
       }
-      console.log('images loaded');
+      console.log(`${count} images loaded`);
     }
-    loadImages();
-  }, []);
+    loadImages(count);
+  }, [count]);
 
   function handleClick(id){
     if (taken.includes(id)){
       changeScore(0);
       setTaken([]);
-      //TODO: replace with smth better
+      //TODO: replace with smth better like modal
       alert("you lost, click to restart!");
     }else{
       setTaken(taken=>[...taken,id]);
@@ -86,7 +88,7 @@ function CardContainer({score, changeScore,resetGame}) {
         ))}
       </div>
       <div style={{background:'red', height:'2px', margin:'5vh 0vw'}}></div>
-      <button id="reset-game" onClick={()=>{setTaken([]);setImages(prev=>shuffleArray(prev));resetGame()}}>Reset</button>
+      <button id="reset-game" onClick={()=>{setTaken([]);setCount(8); setImages(prev=>shuffleArray(prev));resetGame()}}>Reset</button>
     </>
   );
 }
