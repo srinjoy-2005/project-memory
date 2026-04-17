@@ -1,3 +1,12 @@
+// import all images at build time
+const imageModules = import.meta.glob('../assets/*.png', {
+    eager: true,
+    import: 'default'
+});
+
+// convert to array of URLs
+const localImages = Object.values(imageModules);
+
 let images = [];
 
 async function sendRequest() {
@@ -8,12 +17,11 @@ async function sendRequest() {
         throw new Error('api request failed');
     }
 
-    const data = await rawdata.json();
-    return data;
+    return rawdata.json();
 }
 
 function shuffleArray(array) {
-    const newArray = [...array]; 
+    const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
@@ -25,16 +33,15 @@ async function getImages(number = 10) {
     try {
         const data = await sendRequest();
 
-        //take random images each time
-        const first100 = data
+        const valid = data
             .map(item => ({
                 url: item.photo,
                 name: item.name
             }))
-            .filter(item => Boolean(item.url))
+            .filter(item => item.url)
             .slice(0, 100);
 
-        const randomSelection = shuffleArray(first100).slice(0, number);
+        const randomSelection = shuffleArray(valid).slice(0, number);
 
         images = randomSelection.map(item => ({
             id: crypto.randomUUID(),
@@ -43,11 +50,13 @@ async function getImages(number = 10) {
         }));
 
     } catch (error) {
-        console.warn("API failed, using local images",error);
+        console.warn("API failed, using local images", error);
 
-        images = Array.from({ length: number }, (_, i) => ({
+        const shuffledLocal = shuffleArray(localImages).slice(0, number);
+
+        images = shuffledLocal.map((url, i) => ({
             id: crypto.randomUUID(),
-            url: `src/static/im${i + 1}.png`,
+            url,
             character: 'character'
         }));
     }
@@ -55,4 +64,4 @@ async function getImages(number = 10) {
     return images;
 }
 
-export {getImages};
+export { getImages };
