@@ -10,6 +10,7 @@ function CardContainer({score, changeScore,resetGame}) {
   const [taken, setTaken] = useState([]);
   const [loading,setloading] = useState(true);
   const [flip, setFlip] = useState(false);
+  
 
   if(taken.length==images.length && !loading){
     //TODO: replace with modal
@@ -21,7 +22,7 @@ function CardContainer({score, changeScore,resetGame}) {
   }
 
   function shuffleArray(array) {
-    const newArray = [...array]; // don't mutate state directly
+    const newArray = [...array]; 
     for (let i = newArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
@@ -85,7 +86,7 @@ function CardContainer({score, changeScore,resetGame}) {
         ))}
       </div>
       <div style={{background:'red', height:'2px', margin:'5vh 0vw'}}></div>
-      <button id="reset-game" onClick={()=>{resetGame()}}>Reset</button>
+      <button id="reset-game" onClick={()=>{setTaken([]);setImages(prev=>shuffleArray(prev));resetGame()}}>Reset</button>
     </>
   );
 }
