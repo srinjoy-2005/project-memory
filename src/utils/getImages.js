@@ -54,7 +54,7 @@ async function getImages(number = 8) {
 
         const shuffledLocal = shuffleArray(localImages).slice(0, number);
 
-        images = shuffledLocal.map((url) => ({
+        images = Array.from({ length: number }, (_, i) => ({
             id: crypto.randomUUID(),
             url,
             character: 'character'
