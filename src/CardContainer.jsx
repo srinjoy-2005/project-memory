@@ -12,16 +12,17 @@ function CardContainer({score, changeScore,resetGame}) {
   const [flip, setFlip] = useState(false);
   const [count, setCount] = useState(8);//number of cards
 
-
-  if(taken.length==images.length && !loading){
-    //TODO: replace with modal
-    alert(`You won the ${count} card memory game!`);
-    setTimeout(() => {
-      resetGame();
-      setTaken([]);
-      setCount(prev=>prev+2);
-    }, 0); 
-  }
+  useEffect(()=>{
+    if(taken.length==count && !loading){
+      //TODO: replace with modal
+      alert(`You won the ${count} card memory game!`);
+      setTimeout(() => {
+        resetGame();
+        setTaken([]);
+        setCount(prev=>prev+2);
+      }, 0); 
+    }
+  },[taken,count]);
 
   function shuffleArray(array) {
     const newArray = [...array]; 
@@ -59,6 +60,7 @@ function CardContainer({score, changeScore,resetGame}) {
     if (taken.includes(id)){
       changeScore(0);
       setTaken([]);
+      setCount(8);
       //TODO: replace with smth better like modal
       alert("you lost, click to restart!");
     }else{
@@ -88,7 +90,9 @@ function CardContainer({score, changeScore,resetGame}) {
         ))}
       </div>
       <div style={{background:'red', height:'2px', margin:'5vh 0vw'}}></div>
-      <button id="reset-game" onClick={()=>{setTaken([]);setCount(8); setImages(prev=>shuffleArray(prev));resetGame()}}>Reset</button>
+      <button id="reset-game" onClick={()=>{
+        setTaken([]);setCount(8); setImages(prev=>shuffleArray(prev));resetGame()
+      }}>Reset</button>
     </>
   );
 }
